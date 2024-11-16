@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出退勤管理システム</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!--PWA用の設定-->
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker registered successfully.'))
+                .catch((error) => console.error('Service Worker registration failed:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>新規記録入力</h1>
+            </div>
+            <div class="card-content">
+                <!-- 入力セクション -->
+                <div class="input-section">
+                    <div class="staff-selection">
+                        <select id="staffSelect">
+                            <option value="職員A">職員A担当</option>
+                            <option value="職員B">職員B担当</option>
+                        </select>
+                    <div class="user-input-section">
+                        <input type="text" id="userNameInput" placeholder="利用者名を入力">
+                    </div>
+                    <div class="time-input-container">
+                        <div class="time-input-section">
+                            <label class="time-label">出勤時間:</label>
+                            <input type="time" list="data-list" id="checkInTime" step="1800">
+                            <datalist id="data-list">
+                                <option value="09:00"></option>
+                                <option value="09:30"></option>
+                                <option value="10:00"></option>
+                                <option value="10:30"></option>
+                                <option value="11:00"></option>
+                                <option value="11:30"></option>
+                                <option value="12:00"></option>
+                                <option value="12:30"></option>
+                                <option value="13:00"></option>
+                                <option value="13:30"></option>
+                                <option value="14:00"></option>
+                                <option value="14:30"></option>
+                                <option value="15:00"></option>
+                                <option value="15:30"></option>
+                                <option value="16:00"></option>
+                                <option value="16:30"></option>
+                                <option value="17:00"></option>
+                                <option value="17:30"></option>
+                                <option value="18:00"></option>
+                                <option value="18:30"></option>
+
+
+                            </datalist>
+                        </div>
+                        <div class="time-input-section">
+                            <label class="time-label">退勤時間:</label>
+                            <input type="time" list="data-list" id="checkOutTime" step="1800">
+                        </div>
+                    </div>
+                    <button id="addRecordBtn" class="primary-button">新規予定として追加</button>
+                </div>
+
+                <!-- レコード一覧 -->
+                <div class="table-container">
+                    <table id="recordsTable">
+                        <thead>
+                            <tr>
+                                <th>状態</th>
+                                <th>担当</th>
+                                <th>利用者名</th>
+                                <th>出勤時間</th>
+                                <th>退勤時間</th>
+                                <th>昼休憩入り</th>
+                                <th>昼休憩戻り</th>
+                                <th>勤務時間</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ソートセクション -->
+                <div class="sort-section">
+                    <button class="sort-button" data-sort="checkInTime">出勤時間順</button>
+                    <button class="sort-button" data-sort="checkOutTime">退勤時間順</button>
+                    <button class="sort-button" data-sort="staff">担当者順</button>
+                    <button class="sort-button" data-sort="userName">名前順</button>
+                </div>
+
+                <!-- CSV出力ボタン -->
+                <button id="exportCsvBtn" class="secondary-button">CSV出力</button>
+
+                <!-- メモ欄 -->
+                <div class="memo-section">
+                    <h3>メモ欄</h3>
+                    <textarea id="memoText"></textarea>
+                    <button id="saveMemoBtn" class="primary-button">メモを保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
